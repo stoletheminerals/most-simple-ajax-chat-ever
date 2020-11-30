@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>ajax chat (room 1)</title>
+    <title>Cyberlab Customer Service</title>
     <style type="text/css">
 body             { padding-left:40px; background:#57767F; font-family:arial;}
 input, textarea  { font-family: courier new; font-size: 12px; }
@@ -18,47 +18,7 @@ input, textarea  { font-family: courier new; font-size: 12px; }
 #info a:hover    { text-decoration:underline; color:#CF9700; }
 </style>
     </head>
-    <body>
-        <div id="info">
-        <br>
-            <table border="0">
-                <tr>
-                    <td colspan="2">
-                        <a href="/projects/most-simple-ajax-chat-ever/"><font style="font-size:14px">most simple ajax chat</a> (v3)</font><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="small">author</td>
-                    <td class="small"><a href="mailto:chris@linuxuser.at">chris at linuxuser dot at</a></td>
-                </tr>
-                <tr>
-                    <td class="small">home</td>
-                    <td class="small"><a href="/projects/most-simple-ajax-chat-ever/">www.linuxuser.at</a></td>
-                </tr>
-                <tr>
-                    <td class="small">source</td>
-                    <td class="small"><a href="https://github.com/metachris/most-simple-ajax-chat-ever">Github</a></td>
-                </tr>
-                <tr><td>&nbsp;</td></tr>
-                <tr>
-                    <td colspan="2" class="small">toggle: <a href="#" onclick="javascript:show_newmsg_on_bottom=!show_newmsg_on_bottom">top/bottom display</a> | <a href="#" onclick="javascript:chatwindow.style.fontWeight= (chatwindow.style.fontWeight=='bold') ? 'normal' : 'bold';">bold</a></td>
-                </tr>
-            </table>
-
-        </div>
-        <br>
-        <div id="content">
-            <textarea id="chatwindow" rows="19" cols="95" readonly></textarea><br>
-
-            <input id="chatnick" type="text" size="9" maxlength="10" placeholder="username">&nbsp;
-            <input id="chatmsg" type="text" size="80" maxlength="80"  onkeyup="keyup(event.keyCode);" placeholder="message">
-            <input type="button" value="add" onclick="submit_msg();" style="cursor:pointer;border:1px solid gray;"><br><br>
-        </div>
-
-    </body>
-</html>
-
-<script type="text/javascript">
+    <script type="text/javascript">
 /* most simple ajax chat script (www.linuxuser.at) (GPLv2) */
 var nick_maxlength=10;
 var http_request=false;
@@ -89,6 +49,7 @@ function read_cont()         { zeit = new Date(); ms = (zeit.getHours() * 24 * 6
 function display_msg(msg1)     { chatwindow.value = msg1.trim(); }
 function keyup(arg1)         { if (arg1 == 13) submit_msg(); }
 function submit_msg()         { clearTimeout(intUpdate); if (chatnick.value == "") { check = prompt("please enter username:"); if (check === null) return 0; if (check == "") check="..."; chatnick.value=check; } if (chatnick.value.length > nick_maxlength) chatnick.value=chatnick.value.substring(0,nick_maxlength); spaces=""; for(i=0;i<(nick_maxlength-chatnick.value.length);i++) spaces+=" "; v=chatwindow.value.substring(chatwindow.value.indexOf("\n")) + "\n" + chatnick.value + spaces + "| " + chatmsg.value; if (chatmsg.value != "") chatwindow.value=v.substring(1); write_msg(chatmsg.value,chatnick.value); chatmsg.value=""; intUpdate=window.setTimeout("read_cont();", waittime);}
+function submit_clear()     { ajax_request("w.php?clear=true"); ajax_request2("chat.txt"); }
 function write_msg(msg1,nick1)     { ajax_request("w.php?m=" + escape(msg1) + "&n=" + escape(nick1)); }
 function rec_response(str1)     { }
 
@@ -101,3 +62,33 @@ function rec_chatcontent(cont1) {
     }
 }
 </script>
+    <body>
+        <div id="info">
+        <br>
+            <table border="0">
+                <tr>
+                    <td colspan="2">
+                        <font style="font-size:14px">Customer Service</font><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="small">Please leave your message below</td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+
+            </table>
+
+        </div>
+        <br>
+        <div id="content">
+            <textarea id="chatwindow" rows="19" cols="95" readonly></textarea><br>
+
+            <input id="chatnick" type="text" size="9" maxlength="10" placeholder="username">&nbsp;
+            <input id="chatmsg" type="text" size="80" maxlength="80"  onkeyup="keyup(event.keyCode);" placeholder="message">
+            <input type="button" value="add" onclick="submit_msg();" style="cursor:pointer;border:1px solid gray;"><br><br>
+            <input type="button" value="clear" onclick="submit_clear();" style="cursor:pointer;border:1px solid gray;"><br><br>
+        </div>
+
+    </body>
+</html>
+
