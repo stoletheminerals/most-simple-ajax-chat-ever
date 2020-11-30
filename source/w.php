@@ -26,6 +26,10 @@
     $msg = $_REQUEST["m"];
     $n = $_REQUEST["n"];
 
+if (isset($_GET["clear"])) {
+    system("echo '' > chat.txt");
+}
+
     if ($waittime_sec > 0) {
         $lastvisit = $_COOKIE["lachatlv"];
         setcookie("lachatlv", time());
